@@ -1,4 +1,5 @@
 ﻿using InventoryTracker.CQRS;
+using InventoryTracker.CQRS.InventoryTransactions.Commands;
 using InventoryTracker.CQRS.InventoryTransactions.Orchestrators;
 using InventoryTracker.Data;
 using InventoryTracker.Models;
@@ -142,76 +143,53 @@ namespace InventoryTracker.Controllers
 
 
 
-        //[HttpPost("TransferStock")]
-        //public async Task<ActionResult<GeneralResponse>> TransferStock(TransfereStockDTO transfereStock)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ApplicationUser? currentUser = await userManager.GetUserAsync(User);
-        //        if (currentUser == null || currentUser.UserName != transfereStock.UserName)
-        //        {
-        //            return new GeneralResponse()
-        //            {
-        //                IsPass = false,
-        //                Data = "Unauthorized access or user mismatch"
-        //            };
-        //        }
+        [HttpPost("TransferStock")]
+        public async Task<ActionResult<GeneralResponse>> TransferStock(TransfereStockDTO transfereStock)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser? currentUser = await userManager.GetUserAsync(User);
+                if (currentUser == null || currentUser.UserName != transfereStock.UserName)
+                {
+                    return new GeneralResponse()
+                    {
+                        IsPass = false,
+                        Data = "Unauthorized access or user mismatch"
+                    };
+                }
+                var res = await mediator.Send(new TransfereInventoryCommand()
+                {
+                    ProductID = transfereStock.ProductId,
+                    UserID = currentUser.Id,
+                    NewWarehouseID = transfereStock.NewWarehouseID,
+                    OldWarehouseID = transfereStock.OldWarehouseID
 
-        //        Product checkProduct = productService.GetByIDNotDeleted(transfereStock.ProductId);
-        //        Inventory inventory = inventoryService.GetByIDNotDeleted(transfereStock.InventoryID);
-        //        if (checkProduct != null && inventory != null)
-        //        {
-        //            if (checkProduct.InventoryId == transfereStock.InventoryID)
-        //            {
-        //                return new GeneralResponse()
-        //                {
-        //                    IsPass = false,
-        //                    Data = "Stock already in this inventory"
-        //                };
+                });
 
-        //            }
+                if (res)
+                {
+                    await mediator.Send(new SaveChanges());
+                    return new GeneralResponse()
+                    {
+                        IsPass = true,
+                        Data = "Product has been updated"
+                    };
+                }
+                return new GeneralResponse()
+                {
+                    IsPass = false,
+                    Data = "Check Inventory or Product"
+                };
 
-        //            checkProduct.InventoryId = transfereStock.InventoryID;
-        //            productService.Update(checkProduct);
-
-        //            InventoryTransaction inventoryTransaction = new InventoryTransaction()
-        //            {
-        //                CreatedDate = DateTime.UtcNow,
-        //                InventoryId = transfereStock.InventoryID,
-        //                IsArchived = false,
-        //                IsDeleted = false,
-        //                ProductID = transfereStock.ProductId,
-        //                Quantity = checkProduct.Quantity,
-        //                TransactionsType = TransactionsType.Transfere,
-        //                UserId = currentUser.Id
-        //            };
-
-        //            inventoryTransactionService.Add(inventoryTransaction);
-
-        //            inventoryTransactionService.Save();
-        //            return new GeneralResponse()
-        //            {
-        //                IsPass = true,
-        //                Data = "Product has been updated"
-        //            };
-
-        //        }
-
-        //        return new GeneralResponse()
-        //        {
-        //            IsPass = false,
-        //            Data = "Check Inventory or Product"
-        //        };
-
-        //    }
-        //    return new GeneralResponse()
-        //    {
-        //        IsPass = false,
-        //        Data = ModelState
-        //    };
+            }
+            return new GeneralResponse()
+            {
+                IsPass = false,
+                Data = ModelState
+            };
 
 
-        //}
+        }
 
     }
 }

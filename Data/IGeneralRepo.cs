@@ -7,6 +7,7 @@ namespace InventoryTracker.Data
     {
         void Add(T Item);
         void Update(T Item);
+        void Delete(T Item);
         void Remove(int Id);
         void Save();
         T GetByID(int Id);

@@ -44,6 +44,10 @@ namespace InventoryTracker.Data
         {
             context.Set<T>().Update(Item);
         }
+        public void Delete(T Item)
+        {
+            context.Set<T>().Remove(Item);
+        }
 
         public void Save()
         {
