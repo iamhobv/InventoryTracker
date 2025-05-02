@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using InventoryTracker.CQRS;
 using InventoryTracker.CQRS.Products.Commands;
+using InventoryTracker.CQRS.Products.Orchestrators;
 using InventoryTracker.CQRS.Products.Queries;
 using InventoryTracker.Data;
 using InventoryTracker.Models;
 using InventoryTracker.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RoboostAssessment.DTO.ProductDTOs;
@@ -30,7 +32,7 @@ namespace InventoryTracker.Controllers
             {
                 try
                 {
-                    AddProductCommand addProduct = addProductDTO.Map<AddProductCommand>();
+                    AddProductOrchestrator addProduct = addProductDTO.Map<AddProductOrchestrator>();
                     var result = await mediator.Send(addProduct);
                     if (result)
                     {
@@ -45,7 +47,7 @@ namespace InventoryTracker.Controllers
                     return new GeneralResponse()
                     {
                         IsPass = false,
-                        Data = "Product already exist"
+                        Data = "Error while saving product please check you data and try again"
                     };
                 }
                 catch (Exception e)
@@ -110,7 +112,7 @@ namespace InventoryTracker.Controllers
         }
 
 
-
+        [Authorize("Admin")]
         [HttpDelete("delete/{id:int}")]
         public async Task<ActionResult<GeneralResponse>> deleteProduct(int id)
         {

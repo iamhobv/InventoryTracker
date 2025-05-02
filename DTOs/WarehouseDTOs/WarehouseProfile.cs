@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InventoryTracker.CQRS.ProductWarehouse.Commands;
 using InventoryTracker.CQRS.Warehouse.Commands;
 using InventoryTracker.Models;
 using RoboostAssessment.DTO.CategoryDTOs;
@@ -16,6 +17,7 @@ namespace InventoryTracker.DTOs.WarehouseDTOs
             CreateMap<AddWarehouseCommand, AddWarehosueDTO>().ReverseMap();
             CreateMap<AddWarehouseCommand, Warehouse>().ReverseMap();
             CreateMap<UpdateWarehouseDTO, UpdateWarehouseCommand>().ReverseMap();
+            CreateMap<ProductWarehouse, AddProductWarehouseCommand>().ReverseMap();
 
 
         }

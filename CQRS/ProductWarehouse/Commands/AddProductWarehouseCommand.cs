@@ -42,7 +42,7 @@ namespace InventoryTracker.CQRS.ProductWarehouse.Commands
             }
             Models.ProductWarehouse productWarehouse = request.Map<Models.ProductWarehouse>();
             repo.Add(productWarehouse);
-
+            //repo.Save();
             return true;
         }
     }

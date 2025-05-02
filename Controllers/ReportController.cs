@@ -6,6 +6,7 @@ using InventoryTracker.Enums;
 using InventoryTracker.Models;
 using InventoryTracker.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace InventoryTracker.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize("Admin")]
     public class ReportController : ControllerBase
     {
         private readonly IMediator mediator;

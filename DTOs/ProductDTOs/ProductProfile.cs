@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InventoryTracker.CQRS.Products.Commands;
+using InventoryTracker.CQRS.Products.Orchestrators;
 using InventoryTracker.Models;
 using RoboostAssessment.DTO.CategoryDTOs;
 using RoboostAssessment.DTO.ProductDTOs;
@@ -22,6 +23,8 @@ namespace InventoryTracker.DTOs.ProductDTOs
             CreateMap<UpdateProductDTO, GetProductDTO>().ReverseMap();
             CreateMap<Product, UpdateProductDTO>().ReverseMap();
             CreateMap<Product, Product>().ReverseMap();
+            CreateMap<AddProductCommand, AddProductOrchestrator>().ReverseMap();
+            CreateMap<AddProductDTO, AddProductOrchestrator>().ReverseMap();
         }
     }
 }

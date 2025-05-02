@@ -9,7 +9,7 @@ using RoboostAssessment.DTO.ProductDTOs;
 
 namespace InventoryTracker.CQRS.Products.Commands
 {
-    public class AddProductCommand : IRequest<bool>
+    public class AddProductCommand : IRequest<int>
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -18,7 +18,7 @@ namespace InventoryTracker.CQRS.Products.Commands
         public int LowStockThreshold { get; set; }
         public int CategoryId { get; set; }
     }
-    public class AddProductCommandHandler : IRequestHandler<AddProductCommand, bool>
+    public class AddProductCommandHandler : IRequestHandler<AddProductCommand, int>
     {
         private readonly IGeneralRepo<Product> repo;
         private readonly IMediator mediator;
@@ -28,19 +28,22 @@ namespace InventoryTracker.CQRS.Products.Commands
             this.repo = repo;
             this.mediator = mediator;
         }
-        public async Task<bool> Handle(AddProductCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
-            GetProductDTO existingProduct = await mediator.Send(new GetProductByNameNotDeletedQuery() { Name = request.Name });
-            var existingCategory = await mediator.Send(new GetCategoryByIdQuery() { CategoryId = request.CategoryId });
-
-            if (existingProduct != null || existingCategory == null)
+            try
             {
-                return false;
+                Product product = request.Map<Product>();
+
+                repo.Add(product);
+                repo.Save();
+                return product.ID; ;
+            }
+            catch (Exception)
+            {
+
+                return -1;
             }
 
-            Product product = request.Map<Product>();
-            repo.Add(product);
-            return true;
 
         }
     }

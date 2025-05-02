@@ -27,7 +27,6 @@
 	<ItemGroup>
 		<Folder Include="CQRS\Notification\Orchestrators\" />
 		<Folder Include="CQRS\Notification\Queries\" />
-		<Folder Include="CQRS\Products\Orchestrators\" />
 		<Folder Include="CQRS\Report\Orchestrators\" />
 		<Folder Include="CQRS\Report\Queries\" />
 		<Folder Include="CQRS\Warehouse\Orchestrators\" />

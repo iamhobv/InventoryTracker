@@ -9,5 +9,7 @@ namespace RoboostAssessment.DTO.ProductDTOs
         public double Price { get; set; }
         public int LowStockThreshold { get; set; }
         public int CategoryId { get; set; }
+        public int WarehosueId { get; set; }
+        public string UserId { get; set; }
     }
 }
