@@ -16,4 +16,5 @@ namespace InventoryTracker.DTOs.ProductWarehouseDTOs
 
         public int ProductQuantity { get; set; }
     }
+ 
 }

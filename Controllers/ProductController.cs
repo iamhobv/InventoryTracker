@@ -209,6 +209,27 @@ namespace InventoryTracker.Controllers
 
 
 
+        [HttpGet("GetByWarehouseId/{Id:int}")]
+        public async Task<ActionResult<GeneralResponse>> GetByWarehouseId(int Id)
+        {
+            var product = await mediator.Send(new GetProductsByWarehouse() { WarehouseID = Id });
+
+            if (product != null)
+            {
+                return new GeneralResponse()
+                {
+                    IsPass = true,
+                    Data = product
+                };
+            }
+            return new GeneralResponse()
+            {
+                IsPass = false,
+                Data = "Product is not exist"
+            };
+        }
+
+
         [HttpGet("GetById/{Id:int}")]
         public async Task<ActionResult<GeneralResponse>> GetById(int Id)
         {
