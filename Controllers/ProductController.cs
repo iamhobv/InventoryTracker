@@ -9,6 +9,7 @@ using InventoryTracker.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RoboostAssessment.DTO.ProductDTOs;
 
@@ -19,10 +20,12 @@ namespace InventoryTracker.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, UserManager<ApplicationUser> userManager)
         {
             this.mediator = mediator;
+            this.userManager = userManager;
         }
 
         [HttpPost("Add")]
@@ -32,7 +35,18 @@ namespace InventoryTracker.Controllers
             {
                 try
                 {
+                    ApplicationUser? currentUser = await userManager.GetUserAsync(User);
+                    if (currentUser == null || currentUser.UserName != addProductDTO.UserName)
+                    {
+                        return new GeneralResponse()
+                        {
+                            IsPass = false,
+                            Data = "Unauthorized access or user mismatch"
+                        };
+                    }
                     AddProductOrchestrator addProduct = addProductDTO.Map<AddProductOrchestrator>();
+                    addProduct.UserId = currentUser.Id;
+
                     var result = await mediator.Send(addProduct);
                     if (result)
                     {
