@@ -262,20 +262,10 @@ namespace InventoryTracker.Controllers
 
         #region Get Profile
         [HttpGet("Profile/{UserName:regex(^[[A-Za-z0-9]]+$)}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GeneralResponse>> GetUserInfo(string UserName)
         {
-            //if i want user to open his profile only
 
-            //var currentUser = await userManager.GetUserAsync(User);
-            //if (currentUser == null || currentUser.UserName != UserName)
-            //{
-            //    return new GeneralResponse()
-            //    {
-            //        IsPass = false,
-            //        Data = "Unauthorized access or user mismatch"
-            //    };
-            //}
 
             ApplicationUser? user = await userManager.FindByNameAsync(UserName ?? "");
 

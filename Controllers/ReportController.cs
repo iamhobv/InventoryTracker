@@ -17,7 +17,7 @@ namespace InventoryTracker.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ReportController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -100,17 +100,12 @@ namespace InventoryTracker.Controllers
 
             IEnumerable<GetTTansactionToReportsDTO> result = await builder.Build();
 
+            var res = await mediator.Send(new AddTransactionHistoryReportCommand() { UserId = currentUser.Id });
+            if (res)
+            {
+                await mediator.Send(new SaveChanges());
+            }
 
-            //Report report = new Report()
-            //{
-            //    CreationDate = DateTime.Now,
-            //    IsDeleted = false,
-            //    ReportType = ReportType.ReportTypeEnum.TransactionHistoryReport,
-            //    UserId = currentUser.Id,
-
-            //};
-            //reportService.Add(report);
-            //reportService.Save();
 
             return new GeneralResponse()
             {

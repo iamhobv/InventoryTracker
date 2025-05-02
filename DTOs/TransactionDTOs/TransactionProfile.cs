@@ -16,11 +16,21 @@ namespace InventoryTracker.DTOs.TransactionDTOs
             CreateMap<AddInventoryOrchesterator, UpdateProductWarehouseCommand>().ReverseMap();
             CreateMap<RemoveInventoryOrchesterator, AddInventoryTranactionCommand>().ReverseMap();
             CreateMap<AddInventoryTranactionCommand, GetTTansactionToReportsDTO>().ReverseMap();
-            CreateMap<InventoryTransaction, GetTTansactionToReportsDTO>().ReverseMap();
-            CreateMap<InventoryTransaction, GetTTansactionToReportsDTO>().ReverseMap();
+            CreateMap<InventoryTransaction, GetTTansactionToReportsDTO>()
+                .ForMember(dst => dst.UserName, opts => opts.MapFrom(src => src.User.UserName))
+                .ReverseMap();
+            //CreateMap<InventoryTransaction, GetTTansactionToReportsDTO>().ReverseMap();
+            //CreateMap<InventoryTransaction, GetTTansactionToReportsDTO>().ReverseMap();
 
-            CreateMap<InventoryTransaction, ArchivedInventoryTransaction>().ForMember(dest=>dest.ID,opt=>opt.Ignore()).ReverseMap();
+            CreateMap<InventoryTransaction, ArchivedInventoryTransaction>().ForMember(dest => dest.ID, opt => opt.Ignore()).ReverseMap();
 
+
+
+
+
+
+
+            //InventoryTransaction->GetTTansactionToReportsDTO
             //RemoveInventoryOrchesterator->AddInventoryTranactionCommand
             //InventoryTransaction->GetTTansactionToReportsDTO
 
