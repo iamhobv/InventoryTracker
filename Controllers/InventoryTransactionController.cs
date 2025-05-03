@@ -100,7 +100,15 @@ namespace InventoryTracker.Controllers
                 }
 
 
-                var res = await mediator.Send(new RemoveInventoryOrchesterator() { ProductId = RemoveStock.ProductId, Quantity = RemoveStock.Quantity, UserId = currentUser.Id, WarehouseId = RemoveStock.WarehouseId, TransactionsType = TransactionsTypeEnum.Remove });
+                var res = await mediator.Send(new RemoveInventoryOrchesterator()
+                {
+                    ProductId = RemoveStock.ProductId,
+                    Quantity = RemoveStock.Quantity,
+                    UserId = currentUser.Id,
+                    WarehouseId = RemoveStock.WarehouseId,
+                    TransactionsType = TransactionsTypeEnum.Remove
+                });
+
 
                 if (res)
                 {

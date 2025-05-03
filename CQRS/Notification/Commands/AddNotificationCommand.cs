@@ -34,7 +34,7 @@ namespace InventoryTracker.CQRS.Notification.Commands
             notification.Message = request.Message;
 
             repo.Add(notification);
-            await mediator.Send(new SaveChanges());
+            //repo.Save();
             return true;
 
         }

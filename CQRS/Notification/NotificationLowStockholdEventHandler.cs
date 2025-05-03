@@ -25,9 +25,10 @@ namespace InventoryTracker.CQRS.Notification
                 {
                     UserId = admin.Id,
                     ProductId = notification.ProductID,
-                    Message = $"the product  {notification.ProductID} has low stock"
+                    Message = $"the product {{ {notification.ProductID} - {notification.ProdName} }} has low stock"
                 });
             }
+            await mediator.Send(new SaveChanges());
 
 
         }

@@ -68,14 +68,9 @@ namespace InventoryTracker.CQRS.InventoryTransactions.Orchestrators
                 {
 
                     await mediator.Send(new SaveChanges());
-                    await mediator.Send(new CheckProductThreshold() {ProductId= request.ProductId });
+                    await mediator.Send(new CheckProductThreshold() { ProductId = request.ProductId });
 
-                    //var Product = await mediator.Send(new GetProductByIdQuery() { Id = request.ProductId });
 
-                    //if (Product.Quantity < Product.LowStockThreshold)
-                    //{
-                    //    await mediator.Publish(new ProductQuantityLessThanThresholdEvent() { ProductID = request.ProductId });
-                    //}
                 }
 
 

@@ -106,15 +106,15 @@ namespace InventoryTracker
 
 
             app.UseHangfireDashboard("/hangfireDashboard");
-            //BackgroundJob.Enqueue(() => Console.WriteLine("test"));
-            RecurringJob.AddOrUpdate("TestJob",
-                () => Console.WriteLine("hello testing hangfire RecurringJob"), Cron.Minutely()
-                );
+
+            //RecurringJob.AddOrUpdate("TestJob",
+            //    () => Console.WriteLine("hello testing hangfire RecurringJob"), Cron.Minutely());
 
             RecurringJob.AddOrUpdate<CheckProductThresholdHangfireServiceHandler>(
                 "CehckProductThreshold",
                 (x) => x.CheckProductThresholdAsync(),
                 Cron.Minutely());
+
             RecurringJob.AddOrUpdate<CheckProductYearArchivedTransactionHangfireService>(
                 "ArchiveTransactionThatMoreThanOneyear",
                 (x) => x.CheckProductYearAsync(),

@@ -23,7 +23,7 @@ namespace InventoryTracker.CQRS.Notification
 
             foreach (var admin in listOfAdmins)
             {
-                logger.LogInformation($"Sending LowStock email to {admin.Id} notify him that the product of Id {notification.ProductID} has low stock ");
+                logger.LogInformation($"Sending LowStock email to {admin.Id} notify him that the product of  {notification.ProductID} - {notification.ProdName}  has low stock ");
 
             }
 

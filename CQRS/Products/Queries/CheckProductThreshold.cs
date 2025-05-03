@@ -3,7 +3,7 @@ using MediatR;
 
 namespace InventoryTracker.CQRS.Products.Queries
 {
-    public class CheckProductThreshold:IRequest<bool>
+    public class CheckProductThreshold : IRequest<bool>
     {
         public int ProductId { get; set; }
     }
@@ -22,7 +22,7 @@ namespace InventoryTracker.CQRS.Products.Queries
 
             if (Product.Quantity < Product.LowStockThreshold)
             {
-                await mediator.Publish(new ProductQuantityLessThanThresholdEvent() { ProductID = request.ProductId });
+                await mediator.Publish(new ProductQuantityLessThanThresholdEvent() { ProductID = request.ProductId, ProdName = Product.Name });
                 return true;
             }
             return false;
